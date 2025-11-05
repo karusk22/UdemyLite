@@ -1,0 +1,68 @@
+package com.udemylite.controller;
+
+import com.udemylite.model.Enrollment;
+import com.udemylite.model.User;
+import com.udemylite.service.EnrollmentService;
+import com.udemylite.service.UserService; // Corrected import
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map; // <-- Import Map
+
+@RestController
+@RequestMapping("/api/enrollments")
+public class EnrollmentController {
+
+    @Autowired
+    private EnrollmentService enrollmentService;
+
+    @Autowired
+    private UserService userService; // Corrected service name
+
+    // --- FIX 1: Changed URL from "/courses/{courseId}" to "/{courseId}" ---
+    // This now matches the frontend's POST /api/enrollments/2
+    @PostMapping("/{courseId}")
+    public ResponseEntity<Enrollment> enrollInCourse(@PathVariable Long courseId, @AuthenticationPrincipal UserDetails userDetails) {
+        User student = userService.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        return ResponseEntity.ok(enrollmentService.enrollStudent(courseId, student));
+    }
+
+    // --- FIX 2: Changed URL from "/courses/{courseId}" to "/{courseId}" ---
+    // This makes it consistent with the POST URL
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<Void> unenrollFromCourse(@PathVariable Long courseId, @AuthenticationPrincipal UserDetails userDetails) {
+        User student = userService.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        enrollmentService.unenrollStudent(courseId, student);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Enrollment>> getMyEnrollments(@AuthenticationPrincipal UserDetails userDetails) {
+        User student = userService.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        return ResponseEntity.ok(enrollmentService.getEnrollmentsByStudent(student.getId()));
+    }
+
+    // --- FIX 3: ADDED THIS ENTIRE METHOD ---
+    // This creates the missing GET /api/enrollments/check/{courseId} endpoint
+    @GetMapping("/check/{courseId}")
+    public ResponseEntity<?> checkEnrollment(@PathVariable Long courseId, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            // If user is not logged in, they are not enrolled
+            return ResponseEntity.ok(Map.of("enrolled", false));
+        }
+        User student = userService.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        
+        boolean isEnrolled = enrollmentService.isStudentEnrolled(student.getId(), courseId);
+        
+        // Return a simple JSON object: { "enrolled": true }
+        return ResponseEntity.ok(Map.of("enrolled", isEnrolled));
+    }
+}
