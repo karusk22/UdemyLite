@@ -28,7 +28,7 @@ public class Course {
     @Column(name = "course_category")
     private String category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id", nullable = false)
     @JsonBackReference("instructor-courses") // <-- 1. ADDED NAME
     private User instructor;

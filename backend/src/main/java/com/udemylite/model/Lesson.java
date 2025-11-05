@@ -20,6 +20,9 @@ public class Lesson {
     @Column
     private String videoUrl;
 
+    @Column
+    private String youtubeUrl;
+
     @Column(nullable = false)
     private Integer orderIndex;
 
@@ -51,6 +54,9 @@ public class Lesson {
 
     public String getVideoUrl() { return videoUrl; }
     public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
+
+    public String getYoutubeUrl() { return youtubeUrl; }
+    public void setYoutubeUrl(String youtubeUrl) { this.youtubeUrl = youtubeUrl; }
 
     public Integer getOrderIndex() { return orderIndex; }
     public void setOrderIndex(Integer orderIndex) { this.orderIndex = orderIndex; }

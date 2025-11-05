@@ -55,9 +55,9 @@ const CourseDetail = () => {
   }, [id]); 
   
   const handleEnroll = useCallback(async () => {
-    setError(''); 
+    setError('');
     if (!user) {
-      navigate('/login'); 
+      navigate('/login');
       return;
     }
     try {
@@ -71,6 +71,19 @@ const CourseDetail = () => {
       setError('Failed to enroll. Please try again.');
     }
   }, [id, user, navigate]);
+
+  const handleUnenroll = useCallback(async () => {
+    setError('');
+    try {
+      await axios.delete(`/api/enrollments/${id}`);
+      setEnrolled(false);
+      // After unenrolling, clear the lessons
+      setLessons([]);
+    } catch (error) {
+      console.error('Error unenrolling from course:', error);
+      setError('Failed to unenroll. Please try again.');
+    }
+  }, [id]);
 
   const handleLessonClick = useCallback((lessonId) => {
     setError(''); 
@@ -195,7 +208,27 @@ const CourseDetail = () => {
                 </Button>
               )}
               {enrolled && (
-                <Chip label="Enrolled" color="success" sx={{ mb: 2 }} />
+                <>
+                  <Chip label="Enrolled" color="success" sx={{ mb: 2 }} />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => navigate(`/course/${id}/lessons`)}
+                    sx={{ mb: 2 }}
+                  >
+                    Take Lessons
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    fullWidth
+                    onClick={handleUnenroll}
+                    sx={{ mb: 2 }}
+                  >
+                    Unenroll
+                  </Button>
+                </>
               )}
               {isInstructor && (
                 <Button
