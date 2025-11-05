@@ -1,6 +1,6 @@
-- [ ] Update LessonService.java to set youtubeUrl in updateLesson method
-- [ ] Update LessonPlayer.js to embed YouTube video if youtubeUrl is present (convert URL to embed format)
-- [ ] Create LessonForm.js component for instructors to create/edit lessons, including YouTube URL input
-- [ ] Add routing for LessonForm in App.js (e.g., /course/:courseId/lesson/:lessonId/edit)
-- [ ] Update CourseLessons.js to add an "Edit Lesson" button for instructors
-- [ ] Test the embedding and form functionality
+- [x] Update LessonService.java to set youtubeUrl in updateLesson method
+- [x] Update LessonPlayer.js to embed YouTube video if youtubeUrl is present (convert URL to embed format)
+- [x] Create LessonForm.js component for instructors to create/edit lessons, including YouTube URL input
+- [x] Add routing for LessonForm in App.js (e.g., /course/:courseId/lesson/:lessonId/edit)
+- [x] Update CourseLessons.js to add an "Edit Lesson" button for instructors
+- [x] Test the embedding and form functionality

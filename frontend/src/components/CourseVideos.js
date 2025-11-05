@@ -137,14 +137,6 @@ const CourseVideos = () => {
                 <Typography variant="body2" color="text.secondary" paragraph>
                   {video.description}
                 </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleVideoClick(video)}
-                  sx={{ mt: 1, mr: 1 }}
-                >
-                  Watch Video
-                </Button>
                 {getRole() === 'INSTRUCTOR' && (
                   <Button
                     variant="outlined"

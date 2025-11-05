@@ -70,24 +70,53 @@ const LessonPlayer = () => {
       )}
 
       {/* YouTube Video Player (if youtubeUrl exists) */}
-      {lesson.youtubeUrl && (
-        <Box sx={{ my: 2, position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
-          <iframe
-            src={lesson.youtubeUrl.replace("watch?v=", "embed/")} // Convert YouTube watch URL to embed URL
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title={lesson.title}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%'
-            }}
-          />
-        </Box>
-      )}
+      {lesson.youtubeUrl && (() => {
+        // Extract video ID from various YouTube URL formats
+        let videoId = null;
+        const url = lesson.youtubeUrl;
+
+        // Standard watch URL
+        const watchMatch = url.match(/[?&]v=([^#\&\?]*)/);
+        if (watchMatch) {
+          videoId = watchMatch[1];
+        }
+
+        // Shortened youtu.be URL
+        const shortMatch = url.match(/youtu\.be\/([^#\&\?]*)/);
+        if (shortMatch) {
+          videoId = shortMatch[1];
+        }
+
+        // Embed URL already
+        const embedMatch = url.match(/embed\/([^#\&\?]*)/);
+        if (embedMatch) {
+          videoId = embedMatch[1];
+        }
+
+        // If video ID found, render iframe
+        if (videoId) {
+          return (
+            <Box sx={{ my: 2, position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title={lesson.title}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%'
+                }}
+              />
+            </Box>
+          );
+        }
+
+        return null;
+      })()}
 
       {/* Lesson Content */}
       <Typography variant="body1" paragraph>

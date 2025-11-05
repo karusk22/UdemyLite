@@ -69,7 +69,7 @@ const CourseManagement = () => {
     e.preventDefault();
     try {
       if (lessonDialog.lesson) {
-        await axios.put(`/api/lessons/${lessonDialog.lesson.id}`, lessonForm);
+        await axios.put(`/api/courses/${id}/lessons/${lessonDialog.lesson.id}`, lessonForm);
       } else {
         await axios.post(`/api/courses/${id}/lessons`, lessonForm);
       }
@@ -86,7 +86,7 @@ const CourseManagement = () => {
     e.preventDefault();
     try {
       if (videoDialog.video) {
-        await axios.put(`/api/videos/${videoDialog.video.id}`, videoForm);
+        await axios.put(`/api/courses/${id}/videos/${videoDialog.video.id}`, videoForm);
       } else {
         await axios.post(`/api/courses/${id}/videos`, videoForm);
       }
@@ -102,7 +102,7 @@ const CourseManagement = () => {
   const deleteLesson = async (lessonId) => {
     if (window.confirm('Are you sure you want to delete this lesson?')) {
       try {
-        await axios.delete(`/api/lessons/${lessonId}`);
+        await axios.delete(`/api/courses/${id}/lessons/${lessonId}`);
         fetchCourseData();
       } catch (error) {
         console.error('Error deleting lesson:', error);
@@ -114,12 +114,22 @@ const CourseManagement = () => {
   const deleteVideo = async (videoId) => {
     if (window.confirm('Are you sure you want to delete this video?')) {
       try {
-        await axios.delete(`/api/videos/${videoId}`);
+        await axios.delete(`/api/courses/${id}/videos/${videoId}`);
         fetchCourseData();
       } catch (error) {
         console.error('Error deleting video:', error);
         setError('Failed to delete video');
       }
+    }
+  };
+
+  const deleteCourse = async () => {
+    try {
+      await axios.delete(`/api/courses/${id}`);
+      navigate('/courses');
+    } catch (error) {
+      console.error('Error deleting course:', error);
+      setError('Failed to delete course');
     }
   };
 
@@ -230,8 +240,20 @@ const CourseManagement = () => {
         <Button
           variant="outlined"
           onClick={() => navigate(`/course/${id}`)}
+          sx={{ mr: 2 }}
         >
           View Course
+        </Button>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => {
+            if (window.confirm('Are you sure you want to delete this entire course? This action cannot be undone.')) {
+              deleteCourse();
+            }
+          }}
+        >
+          Delete Course
         </Button>
       </Box>
 

@@ -49,6 +49,8 @@ const CourseLessons = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const isCourseOwner = getRole() === 'INSTRUCTOR' && course?.instructor?.email === user?.email;
+
   useEffect(() => {
     const fetchCourseAndLessons = async () => {
       setLoading(true);
@@ -144,7 +146,15 @@ const CourseLessons = () => {
                   </Box>
                 )}
 
-                {getRole() === 'INSTRUCTOR' && (
+                {/* <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleLessonClick(lesson.id)}
+                  sx={{ mt: 2, mr: 1 }}
+                >
+                  View Lesson
+                </Button> */}
+                {isCourseOwner && (
                   <Button
                     variant="outlined"
                     color="secondary"
@@ -163,7 +173,7 @@ const CourseLessons = () => {
             No lessons available for this course.
           </Typography>
         )}
-        {getRole() === 'INSTRUCTOR' && (
+        {isCourseOwner && (
           <Box sx={{ mt: 4 }}>
             <Button
               variant="contained"

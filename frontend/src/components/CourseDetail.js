@@ -119,14 +119,14 @@ const CourseDetail = () => {
     }
   }, [id]);
 
-  const handleLessonClick = useCallback((lessonId) => {
-    setError(''); 
+  const handleLessonClick = useCallback(() => {
+    setError('');
     if (enrolled || getRole() === 'INSTRUCTOR' || getRole() === 'ADMIN') {
-      navigate(`/lesson/${lessonId}`);
+      navigate(`/course/${id}/lessons`);
     } else {
-      setError('You must be enrolled in this course to view lessons.');
+      setError('You must be enrolled in this course to view videos.');
     }
-  }, [enrolled, getRole, navigate]);
+  }, [enrolled, getRole, navigate, id]);
 
   useEffect(() => {
     if (authLoading) {
@@ -157,8 +157,8 @@ const CourseDetail = () => {
   }
 
   const canAccessLessons = enrolled || getRole() === 'INSTRUCTOR' || getRole() === 'ADMIN';
-  const isInstructor = getRole() === 'INSTRUCTOR' && course.instructor?.id === user?.id;
-
+  const canManageCourse = getRole() === 'INSTRUCTOR' && course.instructor?.email === user?.email;
+  console.log(canManageCourse);
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={4}>
@@ -293,7 +293,7 @@ const CourseDetail = () => {
                   </Button>
                 </>
               )}
-              {isInstructor && (
+              {canManageCourse && (
                 <>
                   <Button
                     variant="contained"

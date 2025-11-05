@@ -45,7 +45,6 @@ function App() {
             <Route path="/lesson/:id" element={<LessonPlayer />} />
             <Route path="/create-course" element={<CreateCourseForm />} />
             <Route path="/course/:id/manage" element={<CourseManagement />} />
-            <Route path="/course/:id/edit" element={<CreateCourseForm />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/course/:id/lessons" element={<CourseLessons />} />
             <Route path="/course/:id/videos" element={<CourseVideos />} />
