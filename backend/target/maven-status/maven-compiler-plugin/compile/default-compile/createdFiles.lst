@@ -12,6 +12,7 @@ com/udemylite/repository/CourseRepository.class
 com/udemylite/controller/CourseController.class
 com/udemylite/controller/AuthController$LoginRequest.class
 com/udemylite/service/CourseService.class
+com/udemylite/controller/UserController.class
 com/udemylite/controller/EnrollmentController.class
 com/udemylite/repository/UserRepository.class
 com/udemylite/security/JwtUtil.class

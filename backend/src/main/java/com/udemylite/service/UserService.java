@@ -57,4 +57,8 @@ public class UserService implements UserDetailsService {
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 }
