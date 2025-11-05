@@ -9,6 +9,7 @@ import CourseDetail from './components/CourseDetail';
 import CourseLessons from './components/CourseLessons';
 import LessonPlayer from './components/LessonPlayer';
 import CreateCourseForm from './components/CreateCourseForm';
+import LessonForm from './components/LessonForm';
 import AdminDashboard from './components/AdminDashboard';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -39,6 +40,8 @@ function App() {
             <Route path="/create-course" element={<CreateCourseForm />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/course/:id/lessons" element={<CourseLessons />} />
+            <Route path="/course/:courseId/lesson/new" element={<LessonForm />} />
+            <Route path="/course/:courseId/lesson/:lessonId/edit" element={<LessonForm />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

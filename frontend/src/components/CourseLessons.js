@@ -113,10 +113,20 @@ const CourseLessons = () => {
                   variant="contained"
                   color="primary"
                   onClick={() => handleLessonClick(lesson.id)}
-                  sx={{ mt: 2 }}
+                  sx={{ mt: 2, mr: 1 }}
                 >
                   View Lesson
                 </Button>
+                {getRole() === 'INSTRUCTOR' && (
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => navigate(`/course/${id}/lesson/${lesson.id}/edit`)}
+                    sx={{ mt: 2 }}
+                  >
+                    Edit Lesson
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))}
@@ -125,6 +135,17 @@ const CourseLessons = () => {
           <Typography variant="body1" color="text.secondary">
             No lessons available for this course.
           </Typography>
+        )}
+        {getRole() === 'INSTRUCTOR' && (
+          <Box sx={{ mt: 4 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate(`/course/${id}/lesson/new`)}
+            >
+              Add New Lesson
+            </Button>
+          </Box>
         )}
       </Box>
     </Container>

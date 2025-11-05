@@ -69,6 +69,26 @@ const LessonPlayer = () => {
         </Box>
       )}
 
+      {/* YouTube Video Player (if youtubeUrl exists) */}
+      {lesson.youtubeUrl && (
+        <Box sx={{ my: 2, position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
+          <iframe
+            src={lesson.youtubeUrl.replace("watch?v=", "embed/")} // Convert YouTube watch URL to embed URL
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={lesson.title}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%'
+            }}
+          />
+        </Box>
+      )}
+
       {/* Lesson Content */}
       <Typography variant="body1" paragraph>
         {lesson.content}

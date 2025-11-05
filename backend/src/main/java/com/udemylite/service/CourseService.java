@@ -35,6 +35,7 @@ public class CourseService {
         course.setTitle(courseDetails.getTitle());
         course.setDescription(courseDetails.getDescription());
         course.setPrice(courseDetails.getPrice());
+        course.setYoutubeUrl(courseDetails.getYoutubeUrl());
         return courseRepository.save(course);
     }
 

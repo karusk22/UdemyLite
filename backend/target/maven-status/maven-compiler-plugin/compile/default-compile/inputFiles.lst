@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\model\Review.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\service\EnrollmentService.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\model\User.java
@@ -10,6 +9,7 @@ E:\projects\udemy_lite\backend\src\main\java\com\udemylite\service\ReviewService
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\service\UserService.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\security\PasswordConfig.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\controller\CourseController.java
+E:\projects\udemy_lite\backend\src\main\java\com\udemylite\controller\UserController.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\model\Lesson.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\security\JwtUtil.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\service\CourseService.java
@@ -24,31 +24,3 @@ E:\projects\udemy_lite\backend\src\main\java\com\udemylite\controller\ReviewCont
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\model\Course.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\security\SecurityConfig.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\UdemyLiteApplication.java
-=======
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/repository/UserRepository.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/service/ReviewService.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/repository/ReviewRepository.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/repository/LessonRepository.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/repository/CourseRepository.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/security/JwtUtil.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/service/EnrollmentService.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/repository/EnrollmentRepository.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/controller/EnrollmentController.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/model/Lesson.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/model/Review.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/controller/AuthController.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/security/SecurityConfig.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/service/LessonService.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/UdemyLiteApplication.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/service/CourseService.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/service/UserService.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/controller/ReviewController.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/controller/LessonController.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/controller/UserController.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/controller/CourseController.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/model/Course.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/model/User.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/security/PasswordConfig.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/security/JwtAuthenticationFilter.java
-/Users/sk22/Documents/Projects/UdemyLite/backend/src/main/java/com/udemylite/model/Enrollment.java
->>>>>>> b93cad84495f21ac65246ffd796744f512481754

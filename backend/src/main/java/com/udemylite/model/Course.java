@@ -28,6 +28,9 @@ public class Course {
     @Column(name = "course_category")
     private String category;
 
+    @Column
+    private String youtubeUrl;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id", nullable = false)
     @JsonBackReference("instructor-courses") // <-- 1. ADDED NAME
@@ -79,4 +82,7 @@ public class Course {
 
     public Set<Review> getReviews() { return reviews; }
     public void setReviews(Set<Review> reviews) { this.reviews = reviews; }
+
+    public String getYoutubeUrl() { return youtubeUrl; }
+    public void setYoutubeUrl(String youtubeUrl) { this.youtubeUrl = youtubeUrl; }
 }

@@ -49,6 +49,7 @@ public class LessonService {
         lesson.setTitle(lessonDetails.getTitle());
         lesson.setContent(lessonDetails.getContent());
         lesson.setVideoUrl(lessonDetails.getVideoUrl());
+        lesson.setYoutubeUrl(lessonDetails.getYoutubeUrl());
         lesson.setOrderIndex(lessonDetails.getOrderIndex());
         return lessonRepository.save(lesson);
     }

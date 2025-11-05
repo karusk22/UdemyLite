@@ -13,7 +13,8 @@ const CreateCourseForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    price: ''
+    price: '',
+    youtubeUrl: ''
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -124,6 +125,16 @@ const CreateCourseForm = () => {
             margin="normal"
             inputProps={{ min: 0, step: 0.01 }}
             required
+          />
+
+          <TextField
+            fullWidth
+            label="YouTube URL (optional)"
+            name="youtubeUrl"
+            value={formData.youtubeUrl}
+            onChange={handleChange}
+            margin="normal"
+            placeholder="https://www.youtube.com/watch?v=..."
           />
 
           {errors.submit && (
