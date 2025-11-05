@@ -43,10 +43,39 @@ public class EnrollmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Enrollment>> getMyEnrollments(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<Map<String, Object>>> getMyEnrollments(@AuthenticationPrincipal UserDetails userDetails) {
         User student = userService.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-        return ResponseEntity.ok(enrollmentService.getEnrollmentsByStudent(student.getId()));
+        List<Enrollment> enrollments = enrollmentService.getEnrollmentsByStudent(student.getId());
+        List<Map<String, Object>> result = enrollments.stream().map(enrollment -> Map.of(
+            "id", enrollment.getId(),
+            "course", Map.of(
+                "id", enrollment.getCourse().getId(),
+                "title", enrollment.getCourse().getTitle(),
+                "description", enrollment.getCourse().getDescription(),
+                "price", enrollment.getCourse().getPrice(),
+                "instructor", Map.of(
+                    "firstName", enrollment.getCourse().getInstructor().getFirstName(),
+                    "lastName", enrollment.getCourse().getInstructor().getLastName()
+                )
+            ),
+            "enrollmentDate", enrollment.getEnrollmentDate()
+        )).toList();
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/instructor")
+    public ResponseEntity<List<Map<String, Object>>> getInstructorEnrollments(@AuthenticationPrincipal UserDetails userDetails) {
+        User instructor = userService.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Instructor not found"));
+        List<Enrollment> enrollments = enrollmentService.getEnrollmentsByInstructor(instructor.getId());
+        List<Map<String, Object>> result = enrollments.stream().map(enrollment -> Map.of(
+            "id", enrollment.getId(),
+            "student", Map.of("firstName", enrollment.getStudent().getFirstName(), "lastName", enrollment.getStudent().getLastName()),
+            "course", Map.of("title", enrollment.getCourse().getTitle()),
+            "enrollmentDate", enrollment.getEnrollmentDate()
+        )).toList();
+        return ResponseEntity.ok(result);
     }
 
     // --- FIX 3: ADDED THIS ENTIRE METHOD ---
@@ -59,9 +88,9 @@ public class EnrollmentController {
         }
         User student = userService.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-        
+
         boolean isEnrolled = enrollmentService.isStudentEnrolled(student.getId(), courseId);
-        
+
         // Return a simple JSON object: { "enrolled": true }
         return ResponseEntity.ok(Map.of("enrolled", isEnrolled));
     }

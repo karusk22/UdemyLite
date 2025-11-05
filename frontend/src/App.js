@@ -13,6 +13,8 @@ import AdminDashboard from './components/AdminDashboard';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
+import MyCourses from './components/MyCourses';
+import EditCourseForm from './components/EditCourseForm';
 
 const theme = createTheme({
   palette: {
@@ -35,11 +37,13 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/course/:id" element={<CourseDetail />} />
+            <Route path="/course/:id/edit" element={<EditCourseForm />} />
             <Route path="/lesson/:id" element={<LessonPlayer />} />
             <Route path="/create-course" element={<CreateCourseForm />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/course/:id/lessons" element={<CourseLessons />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/my-courses" element={<MyCourses />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>

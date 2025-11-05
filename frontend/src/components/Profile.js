@@ -1,45 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Paper, Box, Avatar, CircularProgress, TextField, Button, Alert } from '@mui/material';
+import { Container, Typography, Paper, Box, Avatar, List, ListItem, ListItemText, Divider } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Profile = () => {
   const { user } = useAuth();
-  const [profileData, setProfileData] = useState(null);
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
+  const [enrollments, setEnrollments] = useState([]);
+  const [instructorEnrollments, setInstructorEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProfileData = async () => {
+      if (!user) return;
+
       try {
-        const response = await axios.get('/api/users/profile');
-        setProfileData(response.data);
+        const [profileRes, studentRes, instructorRes] = await Promise.all([
+          axios.get('/api/users/profile'),
+          axios.get('/api/enrollments'),
+          axios.get('/api/enrollments/instructor')
+        ]);
+
+        setProfile(profileRes.data);
+        setEnrollments(studentRes.data);
+        setInstructorEnrollments(instructorRes.data);
       } catch (error) {
-        console.error('Error fetching profile:', error);
-        setError('Failed to load profile data');
+        console.error('Error fetching profile data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    if (user) {
-      fetchProfile();
-    } else {
-      setLoading(false);
-    }
+    fetchProfileData();
   }, [user]);
-
-  const handleUpdate = async () => {
-    try {
-      await axios.put('/api/users/profile', profileData);
-      setSuccess('Profile updated successfully');
-      setError(null);
-    } catch (err) {
-      setError('Failed to update profile');
-      setSuccess(null);
-    }
-  };
 
   if (!user) {
     return (
@@ -49,20 +44,12 @@ const Profile = () => {
     );
   }
 
-  if (loading) {
-    return (
-      <Container maxWidth="md" sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Container>
-    );
-  }
-
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <Paper elevation={3} sx={{ p: 4 }}>
         <Box display="flex" alignItems="center" mb={3}>
           <Avatar sx={{ width: 80, height: 80, mr: 3 }}>
-            {profileData?.firstName?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
+            {user.email.charAt(0).toUpperCase()}
           </Avatar>
           <Box>
             <Typography variant="h4" gutterBottom>
@@ -74,42 +61,116 @@ const Profile = () => {
           </Box>
         </Box>
 
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
-
         <Box sx={{ mt: 3 }}>
           <Typography variant="h6" gutterBottom>
             Account Details
           </Typography>
-          <TextField
-            fullWidth
-            label="First Name"
-            value={profileData?.firstName || ''}
-            onChange={(e) => setProfileData({ ...profileData, firstName: e.target.value })}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            fullWidth
-            label="Last Name"
-            value={profileData?.lastName || ''}
-            onChange={(e) => setProfileData({ ...profileData, lastName: e.target.value })}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            fullWidth
-            label="Email"
-            value={profileData?.email || ''}
-            onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-            sx={{ mb: 2 }}
-            disabled
-          />
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            <strong>Role:</strong> {profileData?.role}
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <strong>Email:</strong> {profile?.email || user.email}
           </Typography>
-          <Button variant="contained" onClick={handleUpdate}>
-            Update Profile
-          </Button>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <strong>Name:</strong> {profile?.firstName || ''} {profile?.lastName || ''}
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <strong>Role:</strong> {profile?.role || user.role}
+          </Typography>
         </Box>
+
+        {profile?.role === 'INSTRUCTOR' && profile?.courses && (
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              My Courses
+            </Typography>
+            {profile.courses.length === 0 ? (
+              <Typography>No courses created yet.</Typography>
+            ) : (
+              <List>
+                {profile.courses.map((course) => (
+                  <ListItem key={course.id} button onClick={() => navigate(`/course/${course.id}/edit`)}>
+                    <ListItemText
+                      primary={course.title}
+                      secondary={`Price: ₹${course.price} - ${course.description}`}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </Box>
+        )}
+
+        {user.role === 'STUDENT' && (
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              My Enrollments
+            </Typography>
+            {loading ? (
+              <Typography>Loading...</Typography>
+            ) : enrollments.length === 0 ? (
+              <Typography>No enrollments found.</Typography>
+            ) : (
+              <List>
+                {enrollments.map((enrollment) => (
+                  <ListItem key={enrollment.id}>
+                    <ListItemText
+                      primary={enrollment.course?.title || 'Unknown Course'}
+                      secondary={`Enrolled on: ${new Date(enrollment.enrollmentDate).toLocaleDateString()}`}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </Box>
+        )}
+
+        {user.role === 'INSTRUCTOR' && (
+          <>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                My Enrollments
+              </Typography>
+              {loading ? (
+                <Typography>Loading...</Typography>
+              ) : enrollments.length === 0 ? (
+                <Typography>No enrollments found.</Typography>
+              ) : (
+                <List>
+                  {enrollments.map((enrollment) => (
+                    <ListItem key={enrollment.id}>
+                      <ListItemText
+                        primary={enrollment.course?.title || 'Unknown Course'}
+                        secondary={`Enrolled on: ${new Date(enrollment.enrollmentDate).toLocaleDateString()}`}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              )}
+            </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Student Enrollments in My Courses
+              </Typography>
+              {loading ? (
+                <Typography>Loading...</Typography>
+              ) : instructorEnrollments.length === 0 ? (
+                <Typography>No student enrollments found.</Typography>
+              ) : (
+                <List>
+                  {instructorEnrollments.map((enrollment) => (
+                    <ListItem key={enrollment.id}>
+                      <ListItemText
+                        primary={`${enrollment.student?.firstName || 'Unknown'} ${enrollment.student?.lastName || 'Student'} - ${enrollment.course?.title || 'Unknown Course'}`}
+                        secondary={`Enrolled on: ${new Date(enrollment.enrollmentDate).toLocaleDateString()}`}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              )}
+            </Box>
+          </>
+        )}
       </Paper>
     </Container>
   );

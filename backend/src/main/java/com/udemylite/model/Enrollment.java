@@ -1,6 +1,7 @@
 package com.udemylite.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference; // <-- 1. IMPORT THIS
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,14 +13,14 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id", nullable = false)
-    @JsonBackReference("student-enrollments") // <-- 2. ADDED NAME
+    @JsonBackReference("student-enrollments")
     private User student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id", nullable = false)
-    @JsonBackReference("course-enrollments") // <-- 3. ADDED NAME
+    @JsonBackReference("course-enrollments")
     private Course course;
 
     @Column(nullable = false)

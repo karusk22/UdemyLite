@@ -30,7 +30,6 @@ public class Course {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id", nullable = false)
-    @JsonBackReference("instructor-courses") // <-- 1. ADDED NAME
     private User instructor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

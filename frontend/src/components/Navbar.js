@@ -39,6 +39,9 @@ const Navbar = () => {
               <Button color="inherit" component={Link} to="/">
                 Home
               </Button>
+              <Button color="inherit" component={Link} to="/my-courses">
+                My Courses
+              </Button>
 
               {getRole() === 'INSTRUCTOR' && (
                 <Button color="inherit" component={Link} to="/create-course">
