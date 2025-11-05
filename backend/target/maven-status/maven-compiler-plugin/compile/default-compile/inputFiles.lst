@@ -1,5 +1,7 @@
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\model\Review.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\service\EnrollmentService.java
+E:\projects\udemy_lite\backend\src\main\java\com\udemylite\model\Video.java
+E:\projects\udemy_lite\backend\src\main\java\com\udemylite\repository\VideoRepository.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\model\User.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\repository\LessonRepository.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\repository\ReviewRepository.java
@@ -19,6 +21,8 @@ E:\projects\udemy_lite\backend\src\main\java\com\udemylite\security\JwtAuthentic
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\repository\UserRepository.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\repository\CourseRepository.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\service\LessonService.java
+E:\projects\udemy_lite\backend\src\main\java\com\udemylite\service\VideoService.java
+E:\projects\udemy_lite\backend\src\main\java\com\udemylite\controller\VideoController.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\controller\LessonController.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\controller\ReviewController.java
 E:\projects\udemy_lite\backend\src\main\java\com\udemylite\model\Course.java

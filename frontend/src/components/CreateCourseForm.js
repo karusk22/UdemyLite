@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Container, Typography, TextField, Button, Box,
   Paper, Alert
@@ -9,6 +9,7 @@ import axios from 'axios';
 
 const CreateCourseForm = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const { getRole } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
@@ -18,6 +19,32 @@ const CreateCourseForm = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(!!id);
+  const isEdit = !!id;
+
+  // Load course data if editing
+  useEffect(() => {
+    if (isEdit) {
+      const fetchCourse = async () => {
+        setInitialLoading(true);
+        try {
+          const response = await axios.get(`/api/courses/${id}`);
+          setFormData({
+            title: response.data.title,
+            description: response.data.description,
+            price: response.data.price.toString(),
+            youtubeUrl: response.data.youtubeUrl || ''
+          });
+        } catch (error) {
+          console.error('Error fetching course:', error);
+          setErrors({ submit: 'Failed to load course data.' });
+        } finally {
+          setInitialLoading(false);
+        }
+      };
+      fetchCourse();
+    }
+  }, [id, isEdit]);
 
   // Check if user is instructor or admin
   if (getRole() !== 'INSTRUCTOR' && getRole() !== 'ADMIN') {
@@ -66,14 +93,22 @@ const CreateCourseForm = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post('/api/courses', {
-        ...formData,
-        price: parseFloat(formData.price)
-      });
-      navigate(`/course/${response.data.id}`);
+      if (isEdit) {
+        await axios.put(`/api/courses/${id}`, {
+          ...formData,
+          price: parseFloat(formData.price)
+        });
+        navigate(`/course/${id}`);
+      } else {
+        const response = await axios.post('/api/courses', {
+          ...formData,
+          price: parseFloat(formData.price)
+        });
+        navigate(`/course/${response.data.id}`);
+      }
     } catch (error) {
-      console.error('Error creating course:', error);
-      setErrors({ submit: 'Failed to create course. Please try again.' });
+      console.error('Error saving course:', error);
+      setErrors({ submit: `Failed to ${isEdit ? 'update' : 'create'} course. Please try again.` });
     } finally {
       setLoading(false);
     }
@@ -83,7 +118,7 @@ const CreateCourseForm = () => {
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Paper sx={{ p: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Create New Course
+          {isEdit ? 'Edit Course' : 'Create New Course'}
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -151,7 +186,7 @@ const CreateCourseForm = () => {
               disabled={loading}
               size="large"
             >
-              {loading ? 'Creating...' : 'Create Course'}
+              {loading ? (isEdit ? 'Updating...' : 'Creating...') : (isEdit ? 'Update Course' : 'Create Course')}
             </Button>
             <Button
               variant="outlined"

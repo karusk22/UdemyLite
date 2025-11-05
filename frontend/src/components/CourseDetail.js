@@ -275,6 +275,15 @@ const CourseDetail = () => {
                   </Button>
                   <Button
                     variant="outlined"
+                    color="primary"
+                    fullWidth
+                    onClick={() => navigate(`/course/${id}/videos`)}
+                    sx={{ mb: 2 }}
+                  >
+                    Watch Videos
+                  </Button>
+                  <Button
+                    variant="outlined"
                     color="error"
                     fullWidth
                     onClick={handleUnenroll}
@@ -285,15 +294,26 @@ const CourseDetail = () => {
                 </>
               )}
               {isInstructor && (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  onClick={() => navigate(`/course/${id}/edit`)}
-                  sx={{ mb: 2 }}
-                >
-                  Edit Course
-                </Button>
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => navigate(`/course/${id}/manage`)}
+                    sx={{ mb: 2 }}
+                  >
+                    Manage Course
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    onClick={() => navigate(`/course/${id}/edit`)}
+                    sx={{ mb: 2 }}
+                  >
+                    Edit Details
+                  </Button>
+                </>
               )}
             </CardContent>
           </Card>

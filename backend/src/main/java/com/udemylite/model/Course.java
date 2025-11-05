@@ -48,6 +48,10 @@ public class Course {
     @JsonManagedReference("course-reviews") // <-- 4. ADDED NAME
     private Set<Review> reviews;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @JsonManagedReference("course-videos")
+    private Set<Video> videos;
+
     public Course() {}
 
     public Course(Long id, String title, String description, BigDecimal price, User instructor) {
@@ -82,6 +86,9 @@ public class Course {
 
     public Set<Review> getReviews() { return reviews; }
     public void setReviews(Set<Review> reviews) { this.reviews = reviews; }
+
+    public Set<Video> getVideos() { return videos; }
+    public void setVideos(Set<Video> videos) { this.videos = videos; }
 
     public String getYoutubeUrl() { return youtubeUrl; }
     public void setYoutubeUrl(String youtubeUrl) { this.youtubeUrl = youtubeUrl; }

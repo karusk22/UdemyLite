@@ -4,6 +4,7 @@ import com.udemylite.model.Course;
 import com.udemylite.model.Enrollment;
 import com.udemylite.model.Lesson;
 import com.udemylite.model.User;
+import com.udemylite.repository.CourseRepository;
 import com.udemylite.repository.EnrollmentRepository;
 import com.udemylite.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class LessonService {
 
     @Autowired
     private LessonRepository lessonRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Autowired
     private EnrollmentRepository enrollmentRepository;
@@ -32,8 +36,7 @@ public class LessonService {
     }
 
     public Lesson createLesson(Lesson lesson, Long courseId, User instructor) {
-        Course course = new Course();
-        course.setId(courseId);
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new RuntimeException("Course not found"));
         lesson.setCourse(course);
         if (!course.getInstructor().getId().equals(instructor.getId())) {
             throw new RuntimeException("Unauthorized to create lesson for this course");
