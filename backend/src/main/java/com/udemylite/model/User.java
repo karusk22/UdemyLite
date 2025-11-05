@@ -1,5 +1,6 @@
 package com.udemylite.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference; // <-- 1. IMPORT THIS
 import jakarta.persistence.*;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
-    @JsonManagedReference("instructor-courses") // <-- 2. ADDED NAME
+    @JsonIgnore
     private Set<Course> courses;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)

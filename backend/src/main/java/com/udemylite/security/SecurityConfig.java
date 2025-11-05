@@ -66,7 +66,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/courses/**").hasAnyRole("INSTRUCTOR", "ADMIN")
                 
                 // --- Other role-specific routes ---
-                .requestMatchers("/api/enrollments/**").hasAnyRole("STUDENT", "ADMIN")
+                .requestMatchers("/api/enrollments/**").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
                 .requestMatchers("/api/reviews/**").hasAnyRole("STUDENT", "ADMIN")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 
