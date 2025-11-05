@@ -1,63 +1,23 @@
-# Udemy-Lite Platform Development TODO
+# TODO: Implement Profile Feature
 
-## Backend Setup
-- [x] Create backend directory and Spring Boot project structure
-- [x] Configure pom.xml with Spring Boot 3, Java 17, dependencies (Spring Security, JPA, PostgreSQL, JWT)
-- [x] Set up application.properties for PostgreSQL database configuration
-- [x] Create main application class (UdemyLiteApplication.java)
+- [x] Create Profile.js component in frontend/src/components/ to display user information
+- [x] Add /profile route in App.js
+- [x] Update Navbar.js to navigate to /profile when Profile menu item is clicked
+- [x] Create UserController.java with /api/users/profile endpoint
+- [x] Update Profile.js to fetch and display firstName and lastName from backend
+- [x] Add backend endpoint for profile update
+- [x] Add save method in UserService
 
-## Database Entities
-- [x] Create User entity with roles (STUDENT, INSTRUCTOR, ADMIN)
-- [x] Create Course entity with relationships
-- [x] Create Lesson entity with content protection logic
-- [x] Create Enrollment entity
-- [x] Create Review entity
+# TODO: Add Unenroll Functionality
 
-## Security Configuration
-- [x] Implement SecurityConfig with JWT authentication
-- [x] Set up role-based authorization for endpoints
-- [x] Configure content protection for lessons
+- [x] Add Unenroll button in CourseDetail.js for enrolled students
+- [x] Implement handleUnenroll function to call DELETE /api/enrollments/{courseId}
+- [x] Update UI state after unenrollment (clear lessons, update enrolled status)
 
-## Data Access Layer
-- [x] Create repository interfaces for all entities
-- [x] Implement custom repository methods if needed
+# TODO: Add Take Lessons Feature
 
-## Service Layer
-- [x] Implement UserService with business logic
-- [x] Implement CourseService with access control
-- [x] Implement LessonService with enrollment checks
-- [x] Implement EnrollmentService
-- [x] Implement ReviewService
-
-## REST Controllers
-- [x] Create UserController for authentication and user management
-- [x] Create CourseController for course CRUD operations
-- [x] Create LessonController with protected access
-- [x] Create EnrollmentController
-- [x] Create ReviewController
-
-## Frontend Setup
-- [x] Initialize React 18 app in frontend directory
-- [x] Install dependencies (React Router, Axios, Material-UI)
-- [x] Set up project structure and basic components
-
-## Frontend Components
-- [x] Implement CourseCard component
-- [x] Implement Home component
-- [x] Implement CourseDetail component
-- [x] Implement LessonPlayer component with access control
-- [x] Implement CreateCourseForm component
-- [x] Implement AdminDashboard component
-
-## Frontend Features
-- [x] Set up React Router for navigation
-- [x] Implement authentication context for user roles
-- [x] Add Axios for API calls
-- [x] Style components with Material-UI
-
-## Testing and Verification
-- [ ] Run backend server and verify database connection
-- [ ] Run frontend app and test basic functionality
-- [ ] Test user authentication and role permissions
-- [ ] Verify content protection for lessons
-- [ ] Test enrollment and course access logic
+- [x] Create CourseLessons.js component to display lessons for enrolled students
+- [x] Add /course/:id/lessons route in App.js
+- [x] Add "Take Lessons" button in CourseDetail.js for enrolled students
+- [x] Add youtubeUrl field to Lesson model
+- [x] Update CourseLessons.js to display lesson titles and YouTube links
