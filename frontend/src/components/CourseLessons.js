@@ -7,6 +7,39 @@ import {
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
+// Helper function to convert YouTube URL to embed URL
+const getYouTubeEmbedUrl = (url) => {
+  if (!url) return null;
+
+  // Extract video ID from various YouTube URL formats
+  let videoId = null;
+
+  // Standard watch URL
+  const watchMatch = url.match(/[?&]v=([^#\&\?]*)/);
+  if (watchMatch) {
+    videoId = watchMatch[1];
+  }
+
+  // Shortened youtu.be URL
+  const shortMatch = url.match(/youtu\.be\/([^#\&\?]*)/);
+  if (shortMatch) {
+    videoId = shortMatch[1];
+  }
+
+  // Embed URL already
+  const embedMatch = url.match(/embed\/([^#\&\?]*)/);
+  if (embedMatch) {
+    videoId = embedMatch[1];
+  }
+
+  // If video ID found, return embed URL
+  if (videoId) {
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+
+  return null;
+};
+
 const CourseLessons = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -93,30 +126,24 @@ const CourseLessons = () => {
                   {lesson.title}
                 </Typography>
                 {lesson.youtubeUrl && (
-                  <Box sx={{ mt: 2 }}>
-                    <Typography variant="body2" color="text.secondary" gutterBottom>
-                      YouTube Link:
-                    </Typography>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      href={lesson.youtubeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{ mr: 2 }}
-                    >
-                      Watch on YouTube
-                    </Button>
+                  <Box sx={{ mt: 2, position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
+                    <iframe
+                      src={getYouTubeEmbedUrl(lesson.youtubeUrl)}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title={lesson.title}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%'
+                      }}
+                    />
                   </Box>
                 )}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleLessonClick(lesson.id)}
-                  sx={{ mt: 2, mr: 1 }}
-                >
-                  View Lesson
-                </Button>
+
                 {getRole() === 'INSTRUCTOR' && (
                   <Button
                     variant="outlined"

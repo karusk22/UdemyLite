@@ -30,6 +30,11 @@ public class EnrollmentService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
+        // Check if the student is the instructor of this course
+        if (course.getInstructor().getId().equals(student.getId())) {
+            throw new RuntimeException("Instructors cannot enroll in their own courses");
+        }
+
         Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
         enrollment.setCourse(course); // Set the managed entity
@@ -47,6 +52,10 @@ public class EnrollmentService {
         // --- FIX 4: Replaced inefficient "findAll" with a direct query ---
         // This is much faster and will not crash on large databases.
         return enrollmentRepository.findByStudentId(studentId);
+    }
+
+    public List<Enrollment> getEnrollmentsByInstructor(Long instructorId) {
+        return enrollmentRepository.findByCourse_Instructor_Id(instructorId);
     }
 
     public boolean isStudentEnrolled(Long studentId, Long courseId) {

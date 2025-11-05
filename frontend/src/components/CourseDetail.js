@@ -244,18 +244,18 @@ const CourseDetail = () => {
                   variant="contained"
                   color="primary"
                   fullWidth
-                  onClick={handleEnroll} 
+                  onClick={handleEnroll}
                   sx={{ mb: 2 }}
                 >
                   Enroll Now
                 </Button>
               )}
-               {!user && (
+              {!user && (
                 <Button
                   variant="contained"
                   color="primary"
                   fullWidth
-                  onClick={handleEnroll} 
+                  onClick={handleEnroll}
                   sx={{ mb: 2 }}
                 >
                   Enroll Now
@@ -273,7 +273,7 @@ const CourseDetail = () => {
                   >
                     Take Lessons
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="outlined"
                     color="primary"
                     fullWidth
@@ -281,7 +281,7 @@ const CourseDetail = () => {
                     sx={{ mb: 2 }}
                   >
                     Watch Videos
-                  </Button>
+                  </Button> */}
                   <Button
                     variant="outlined"
                     color="error"

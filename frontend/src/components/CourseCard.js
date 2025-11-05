@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, CardActions } from '@mui/material';
+import { Card, CardContent, Typography, Button, CardActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const CourseCard = ({ course }) => {
@@ -9,26 +9,24 @@ const CourseCard = ({ course }) => {
     navigate(`/course/${course.id}`);
   };
 
+  if (!course) {
+    return null;
+  }
+
   return (
     <Card sx={{ maxWidth: 345, height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <CardMedia
-        component="img"
-        height="140"
-        image={course.imageUrl || '/placeholder-course.jpg'}
-        alt={course.title}
-      />
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography gutterBottom variant="h5" component="div">
-          {course.title}
+          {course.title || 'Untitled Course'}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {course.description}
+          {course.description || 'No description available'}
         </Typography>
         <Typography variant="h6" color="primary">
-          ${course.price}
+          ₹{course.price || 0}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Instructor: {course.instructor?.firstName} {course.instructor?.lastName}
+          Instructor: {course.instructor?.firstName || 'Unknown'} {course.instructor?.lastName || ''}
         </Typography>
       </CardContent>
       <CardActions>
